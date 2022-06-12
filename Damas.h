@@ -1,8 +1,8 @@
 #ifndef DAMAS_H
 #define DAMAS_H
 
-#include <Movimento.h>
-#include <Pecas.h>
+#include "Movimento.h"
+#include "Pecas.h"
 #include <iostream>
 #include <algorithm>
 #include <ctime>
@@ -16,7 +16,6 @@ private:
     vector<vector<Peca>> tabuleiro;
     vector<Movimento> movimentosPossiveisA;
     vector<Movimento> movimentosPossiveisB;
-
 public:
     Damas() : jogadorAtual(true) {}
     void Jogar()
@@ -41,12 +40,36 @@ public:
         int x = posInicial[0] - 97;
         int y = posInicial[1];
         Peca pecaMovimentada = tabuleiro[x][y];
-        Peca pecaVazia(posInicial, vazia);
+        Peca pecaVazia(posInicial, vazia, false);
         tabuleiro[x][y] = pecaVazia;
         string posFinal = movimentoSorteado.getPosicaoFinal();
         x = posFinal[0] - 97;
         y = posFinal[1];
         tabuleiro[x][y] = pecaMovimentada;
+    }
+    void mostrarTabuleiro(){
+        for(int linha = 0;linha<10;linha++){
+            for(int coluna = 0; coluna<10;coluna++){
+                if(tabuleiro[linha][coluna].getTipo()==vazia){
+                    cout<<"_";
+                    continue;
+                }
+                if(tabuleiro[linha][coluna].getLado()==true){
+                    if(tabuleiro[linha][coluna].getTipo()==rainha){
+                        cout<<"A";
+                        continue;
+                    }
+                    cout<<"a";
+                }else{
+                    if(tabuleiro[linha][coluna].getTipo()==rainha){
+                        cout<<"B";
+                        continue;
+                    }
+                    cout<<"b";
+                }
+            }
+            cout<<endl;
+        }
     }
 };
 

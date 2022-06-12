@@ -3,7 +3,9 @@
 
 #include<vector>
 #include<iostream>
-#include<Movimento.h>
+#include "Movimento.h"
+#include<algorithm>
+#include<string>
 
 
 using namespace std;
@@ -16,10 +18,18 @@ enum tiposDePeca{
 
 class Peca{
     protected:
+    bool lado;
     string posicao;
     tiposDePeca tipo;
     public:
-    Peca(string posicao,tiposDePeca tipo):posicao(posicao),tipo(tipo){};
+    Peca(string posicao,tiposDePeca tipo,bool lado):posicao(posicao),tipo(tipo),lado(lado){};
+    public:
+    bool getLado(){
+        return lado;
+    }
+    tiposDePeca getTipo(){
+        return tipo;
+    }
     void movimentar(string posicaoFinal){
         posicao = posicaoFinal;
     }
@@ -28,7 +38,7 @@ class Peca{
 
 class Vazia:public Peca{
     public:
-    Vazia(string posicao):Peca(posicao,vazia){}
+    Vazia(string posicao, bool lado):Peca(posicao,vazia,lado){}
     vector<Movimento> movimentosPossiveis(){
         vector<Movimento> movimentos;
         return movimentos;
@@ -37,18 +47,45 @@ class Vazia:public Peca{
 
 class Simples:public Peca{
     public:
-    Simples(string posicao):Peca(posicao,simples){}
+    Simples(string posicao,bool lado):Peca(posicao,simples,lado){}
     vector<Movimento> movimentosPossiveis(){
         vector<Movimento> movimentos;
+        int letraPosicao = posicao[0];
+        int numeroFinal = posicao[1]+1;
+        string posicaoFinal = "";
+        posicaoFinal+=char(letraPosicao + 1);
+        posicaoFinal+=numeroFinal;
+        movimentos.push_back(Movimento(posicao,posicaoFinal));
+        posicaoFinal = "";
+        posicaoFinal+=char(letraPosicao - 1);
+        posicaoFinal+=numeroFinal;
+        movimentos.push_back(Movimento(posicao,posicaoFinal));
         return movimentos;
     }
 };
 
 class Rainha:public Peca{
     public:
-    Rainha(string posicao):Peca(posicao,rainha){}
+    Rainha(string posicao,bool lado):Peca(posicao,rainha,lado){}
     vector<Movimento> movimentosPossiveis(){
+        string posicaoFinal;
+        int letraPosicao = posicao[0];
+        int numeroFinal = 0;
         vector<Movimento> movimentos;
+        for(int i = -10; i<10;i++){
+            if(i==0){
+                continue;
+            }
+            numeroFinal = (int)(posicao[1]+i);
+            posicaoFinal = "";
+            posicaoFinal+=char(letraPosicao + i);
+            posicaoFinal+=numeroFinal;
+            movimentos.push_back(Movimento(posicao,posicaoFinal));
+            posicaoFinal = "";
+            posicaoFinal+=char(letraPosicao - i);
+            posicaoFinal+=numeroFinal;
+            movimentos.push_back(Movimento(posicao,posicaoFinal));            
+        }
         return movimentos;
     }
 };
