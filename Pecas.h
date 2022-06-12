@@ -10,7 +10,7 @@ using namespace std;
 
 enum tiposDePeca{
     vazia = 0,
-    normal,
+    simples,
     rainha
 };
 
@@ -36,9 +36,9 @@ class Vazia:public Peca{
     }
 };
 
-class Normal:public Peca{
+class Simples:public Peca{
     public:
-    Normal(string posicao):Peca(posicao,normal){}
+    Simples(string posicao):Peca(posicao,simples){}
     vector<Movimento> movimentosPossiveis(){
         vector<Movimento> movimentos;
         return movimentos;
