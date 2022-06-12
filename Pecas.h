@@ -16,21 +16,20 @@ enum tiposDePeca{
 
 class Peca{
     protected:
+    string posicao;
     tiposDePeca tipo;
-    Peca(tiposDePeca tipo):tipo(tipo){};
+    Peca(string posicao,tiposDePeca tipo):posicao(posicao),tipo(tipo){};
 
     public:
-    virtual Movimento movimentar(){}
+    void movimentar(string posicaoFinal){
+        posicao = posicaoFinal;
+    }
     virtual vector<Movimento> movimentosPossiveis(){}
 };
 
 class Vazia:public Peca{
     public:
-    Vazia():Peca(vazia){}
-    Movimento movimentar(){
-        Movimento movimento();
-        return movimento;
-    }
+    Vazia(string posicao):Peca(posicao,vazia){}
     vector<Movimento> movimentosPossiveis(){
         vector<Movimento> movimentos;
         return movimentos;
@@ -39,11 +38,7 @@ class Vazia:public Peca{
 
 class Normal:public Peca{
     public:
-    Normal():Peca(normal){}
-    Movimento movimentar(){
-        Movimento movimento();
-        return movimento;
-    }
+    Normal(string posicao):Peca(posicao,normal){}
     vector<Movimento> movimentosPossiveis(){
         vector<Movimento> movimentos;
         return movimentos;
@@ -52,11 +47,7 @@ class Normal:public Peca{
 
 class Rainha:public Peca{
     public:
-    Rainha():Peca(rainha){}
-    Movimento movimentar(){
-        Movimento movimento();
-        return movimento;
-    }
+    Rainha(string posicao):Peca(posicao,rainha){}
     vector<Movimento> movimentosPossiveis(){
         vector<Movimento> movimentos;
         return movimentos;
