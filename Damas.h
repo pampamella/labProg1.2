@@ -7,8 +7,14 @@
 
 using namespace std;
 
-class Damas{
-    vector<Movimento> movimentosPossiveis;
+class Damas {
+    private:
+        bool jogadorAtual;
+        vector<vector<Peca>> tabuleiro;
+        vector<Movimento> movimentosPossiveis;
+    public:
+        Damas(): jogadorAtual(false){}
+        
 };
 
 
