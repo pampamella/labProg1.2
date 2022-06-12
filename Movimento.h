@@ -8,7 +8,8 @@ using namespace std;
 enum tipoMovimento {
     normal,
     captura,
-    convertRainha
+    convertRainha,
+    vazio
 };
 
 class Movimento {
@@ -23,6 +24,9 @@ class Movimento {
         tipoMovimento getCategoria(){ return categoria; }
         string getPosicaoInicial(){ return posicaoInicial; }
         string getPosicaoFinal(){ return posicaoFinal; }
+        void setCategoria(enum tipoMovimento tipo){
+            categoria = tipo;
+        }
 
 };
 
