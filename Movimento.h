@@ -17,7 +17,8 @@ class Movimento {
         string posicaoFinal;
         tipoMovimento categoria;
     public:
-        Movimento(string posInicial, string posFinal, tipoMovimento categoria): posicaoInicial(posInicial), posicaoFinal(posFinal), categoria(categoria) {}
+        Movimento(string posInicial, string posFinal, tipoMovimento categoria = normal): posicaoInicial(posInicial), posicaoFinal(posFinal), categoria(categoria) {}
+        Movimento():posicaoInicial(" "), posicaoFinal(" "), categoria(normal) {}
 
 };
 
