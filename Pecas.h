@@ -3,7 +3,7 @@
 
 #include<vector>
 #include<iostream>
-#include<Movimentos.h>
+#include<Movimento.h>
 
 
 using namespace std;
@@ -20,19 +20,19 @@ class Pecas{
     Pecas(tiposDePeca tipo):tipo(tipo){};
 
     public:
-    virtual Movimentos movimentar(){}
-    virtual vector<Movimentos> movimentosPossiveis(){}
+    virtual Movimento movimentar(){}
+    virtual vector<Movimento> movimentosPossiveis(){}
 };
 
 class Vazia:public Pecas{
     public:
     Vazia():Pecas(vazia){}
-    Movimentos movimentar(){
-        Movimentos movimento();
+    Movimento movimentar(){
+        Movimento movimento();
         return movimento;
     }
-    vector<Movimentos> movimentosPossiveis(){
-        vector<Movimentos> movimentos;
+    vector<Movimento> movimentosPossiveis(){
+        vector<Movimento> movimentos;
         return movimentos;
     }
 };
@@ -40,12 +40,12 @@ class Vazia:public Pecas{
 class Normal:public Pecas{
     public:
     Normal():Pecas(normal){}
-    Movimentos movimentar(){
-        Movimentos movimento();
+    Movimento movimentar(){
+        Movimento movimento();
         return movimento;
     }
-    vector<Movimentos> movimentosPossiveis(){
-        vector<Movimentos> movimentos;
+    vector<Movimento> movimentosPossiveis(){
+        vector<Movimento> movimentos;
         return movimentos;
     }
 };
@@ -53,12 +53,12 @@ class Normal:public Pecas{
 class Rainha:public Pecas{
     public:
     Rainha():Pecas(rainha){}
-    Movimentos movimentar(){
-        Movimentos movimento();
+    Movimento movimentar(){
+        Movimento movimento();
         return movimento;
     }
-    vector<Movimentos> movimentosPossiveis(){
-        vector<Movimentos> movimentos;
+    vector<Movimento> movimentosPossiveis(){
+        vector<Movimento> movimentos;
         return movimentos;
     }
 };
