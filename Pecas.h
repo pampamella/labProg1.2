@@ -18,9 +18,8 @@ class Peca{
     protected:
     string posicao;
     tiposDePeca tipo;
-    Peca(string posicao,tiposDePeca tipo):posicao(posicao),tipo(tipo){};
-
     public:
+    Peca(string posicao,tiposDePeca tipo):posicao(posicao),tipo(tipo){};
     void movimentar(string posicaoFinal){
         posicao = posicaoFinal;
     }
