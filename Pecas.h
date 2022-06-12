@@ -3,7 +3,9 @@
 
 #include<vector>
 #include<iostream>
-#include<Movimento.h>
+#include "Movimento.h"
+#include<algorithm>
+#include<string>
 
 
 using namespace std;
@@ -41,6 +43,16 @@ class Simples:public Peca{
     Simples(string posicao):Peca(posicao,simples){}
     vector<Movimento> movimentosPossiveis(){
         vector<Movimento> movimentos;
+        int letraPosicao = posicao[0];
+        int numeroFinal = posicao[1]+1;
+        string posicaoFinal = "";
+        posicaoFinal+=char(letraPosicao + 1);
+        posicaoFinal+=numeroFinal;
+        movimentos.push_back(Movimento(posicao,posicaoFinal));
+        posicaoFinal = "";
+        posicaoFinal+=char(letraPosicao - 1);
+        posicaoFinal+=numeroFinal;
+        movimentos.push_back(Movimento(posicao,posicaoFinal));
         return movimentos;
     }
 };
@@ -49,7 +61,24 @@ class Rainha:public Peca{
     public:
     Rainha(string posicao):Peca(posicao,rainha){}
     vector<Movimento> movimentosPossiveis(){
+        string posicaoFinal;
+        int letraPosicao = posicao[0];
+        int numeroFinal = 0;
         vector<Movimento> movimentos;
+        for(int i = -10; i<10;i++){
+            if(i==0){
+                continue;
+            }
+            numeroFinal = (int)(posicao[1]+i);
+            posicaoFinal = "";
+            posicaoFinal+=char(letraPosicao + i);
+            posicaoFinal+=numeroFinal;
+            movimentos.push_back(Movimento(posicao,posicaoFinal));
+            posicaoFinal = "";
+            posicaoFinal+=char(letraPosicao - i);
+            posicaoFinal+=numeroFinal;
+            movimentos.push_back(Movimento(posicao,posicaoFinal));            
+        }
         return movimentos;
     }
 };
