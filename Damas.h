@@ -72,6 +72,34 @@ public:
             cout<<endl;
         }
     }
+    bool fimJogo(){
+        int contadorA = 0;
+        int contadorB = 0;
+        for(int i = 0; i < 10; i++){
+            for(int j = 0; j < 10; j++){
+                tiposDePeca tipo = tabuleiro[i][j].getTipo();
+                bool pecaJogador = tabuleiro[i][j].getLado();
+                if(tipo == vazia){
+                    continue;
+                }
+                else if(pecaJogador){
+                    contadorA++;
+                }
+                else if(!pecaJogador){
+                    contadorB++;
+                }
+            }
+        }
+        if(!contadorA){
+            cout << "FIM DE JOGO ---- Vitoria Computador!" << endl;
+            return true;
+        }
+        if(!contadorB){
+            cout << "FIM DE JOGO ---- Vitoria Jogador!" << endl;
+            return true;
+        }
+        return false;
+    }
 };
 
 #endif
