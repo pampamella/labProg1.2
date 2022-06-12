@@ -3,15 +3,51 @@
 
 #include "Movimento.h"
 #include "Pecas.h"
-#include<iostream>
-#include<vector>
+#include <iostream>
+#include <algorithm>
+#include <ctime>
 
 using namespace std;
 
-class Damas{
-    vector<Movimento> movimentosPossiveis;
+class Damas
+{
+private:
+    bool jogadorAtual;
     vector<vector<Peca>> tabuleiro;
-    public:
+    vector<Movimento> movimentosPossiveisA;
+    vector<Movimento> movimentosPossiveisB;
+public:
+    Damas() : jogadorAtual(true) {}
+    void Jogar()
+    {
+        srand(unsigned(time(0)));
+        vector<Movimento> movimentosPrioritarios(movimentosPossiveisB.size());
+        copy_if(movimentosPossiveisB.begin(), movimentosPossiveisB.end(), movimentosPrioritarios.begin(), [](Movimento i)
+                { return i.getCategoria() == captura || i.getCategoria() == convertRainha; });
+        if (movimentosPrioritarios[0].getPosicaoInicial() != " ")
+        {
+            random_shuffle(movimentosPrioritarios.begin(), movimentosPrioritarios.end());
+            movimentar(movimentosPrioritarios);
+        }
+        else{
+            random_shuffle(movimentosPossiveisB.begin(), movimentosPossiveisB.end());
+            movimentar(movimentosPossiveisB);
+        }
+    }
+    void movimentar(vector<Movimento> &vetor){
+        Movimento movimentoSorteado(vetor[0]);
+        string posInicial = movimentoSorteado.getPosicaoInicial();
+        int x = posInicial[0] - 97;
+        int y = posInicial[1];
+        Peca pecaMovimentada = tabuleiro[x][y];
+        Peca pecaVazia(posInicial, vazia, false);
+        tabuleiro[x][y] = pecaVazia;
+        string posFinal = movimentoSorteado.getPosicaoFinal();
+        x = posFinal[0] - 97;
+        y = posFinal[1];
+        pecaMovimentada.setPosicao(posFinal);
+        tabuleiro[x][y] = pecaMovimentada;
+    }
     void mostrarTabuleiro(){
         for(int linha = 0;linha<10;linha++){
             cout<<(10-linha)<<" ";
@@ -81,8 +117,34 @@ class Damas{
             
         }
     }
+    bool fimJogo(){
+        int contadorA = 0;
+        int contadorB = 0;
+        for(int i = 0; i < 10; i++){
+            for(int j = 0; j < 10; j++){
+                tiposDePeca tipo = tabuleiro[i][j].getTipo();
+                bool pecaJogador = tabuleiro[i][j].getLado();
+                if(tipo == vazia){
+                    continue;
+                }
+                else if(pecaJogador){
+                    contadorA++;
+                }
+                else if(!pecaJogador){
+                    contadorB++;
+                }
+            }
+        }
+        if(!contadorA){
+            cout << "FIM DE JOGO ---- Vitoria Computador!" << endl;
+            return true;
+        }
+        if(!contadorB){
+            cout << "FIM DE JOGO ---- Vitoria Jogador!" << endl;
+            return true;
+        }
+        return false;
+    }
 };
-
-
 
 #endif
