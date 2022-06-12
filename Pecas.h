@@ -18,11 +18,17 @@ enum tiposDePeca{
 
 class Peca{
     protected:
+    bool lado;
     string posicao;
     tiposDePeca tipo;
-    Peca(string posicao,tiposDePeca tipo):posicao(posicao),tipo(tipo){};
-
+    Peca(string posicao,tiposDePeca tipo,bool lado):posicao(posicao),tipo(tipo),lado(lado){};
     public:
+    bool getLado(){
+        return lado;
+    }
+    tiposDePeca getTipo(){
+        return tipo;
+    }
     void movimentar(string posicaoFinal){
         posicao = posicaoFinal;
     }
@@ -31,7 +37,7 @@ class Peca{
 
 class Vazia:public Peca{
     public:
-    Vazia(string posicao):Peca(posicao,vazia){}
+    Vazia(string posicao, bool lado):Peca(posicao,vazia,lado){}
     vector<Movimento> movimentosPossiveis(){
         vector<Movimento> movimentos;
         return movimentos;
@@ -40,7 +46,7 @@ class Vazia:public Peca{
 
 class Simples:public Peca{
     public:
-    Simples(string posicao):Peca(posicao,simples){}
+    Simples(string posicao,bool lado):Peca(posicao,simples,lado){}
     vector<Movimento> movimentosPossiveis(){
         vector<Movimento> movimentos;
         int letraPosicao = posicao[0];
@@ -59,7 +65,7 @@ class Simples:public Peca{
 
 class Rainha:public Peca{
     public:
-    Rainha(string posicao):Peca(posicao,rainha){}
+    Rainha(string posicao,bool lado):Peca(posicao,rainha,lado){}
     vector<Movimento> movimentosPossiveis(){
         string posicaoFinal;
         int letraPosicao = posicao[0];
