@@ -21,6 +21,7 @@ class Peca{
     bool lado;
     string posicao;
     tiposDePeca tipo;
+    public:
     Peca(string posicao,tiposDePeca tipo,bool lado):posicao(posicao),tipo(tipo),lado(lado){};
     public:
     bool getLado(){
