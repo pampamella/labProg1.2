@@ -45,6 +45,7 @@ public:
         string posFinal = movimentoSorteado.getPosicaoFinal();
         x = posFinal[0] - 97;
         y = posFinal[1];
+        pecaMovimentada.setPosicao(posFinal);
         tabuleiro[x][y] = pecaMovimentada;
     }
     void mostrarTabuleiro(){
