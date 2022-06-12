@@ -30,7 +30,7 @@ class Peca{
     tiposDePeca getTipo(){
         return tipo;
     }
-    void movimentar(string posicaoFinal){
+    void setPosicao(string posicaoFinal){
         posicao = posicaoFinal;
     }
     virtual vector<Movimento> movimentosPossiveis(){}
