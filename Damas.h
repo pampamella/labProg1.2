@@ -45,7 +45,16 @@ public:
         categoriaDosMovimentosSimples();
     }
     bool verificaMovimento(string posicaoInicial, string posicaoFinal){
-        return true;
+        Movimento tentativaMovimento(posicaoInicial, posicaoFinal);
+        vector<Movimento>::iterator it;
+        it = find_if(movimentosPossiveisA.begin(), movimentosPossiveisA.end(), [&tentativaMovimento](Movimento i) {
+            return i.getPosicaoInicial() == tentativaMovimento.getPosicaoInicial() && i.getPosicaoFinal() == tentativaMovimento.getPosicaoFinal();
+        });
+        if(it != movimentosPossiveisA.end()){
+            return true;
+        }
+        cout << "Movimento invalido!" << endl;
+        return false;
     }
     void Jogar(string posicaoInicial, string posicaoFinal){
         bool movimentoPossivel = verificaMovimento(posicaoInicial, posicaoFinal);
