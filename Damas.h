@@ -28,16 +28,10 @@ public:
         if (movimentosPrioritarios[0].getPosicaoInicial() != " ")
         {
             random_shuffle(movimentosPrioritarios.begin(), movimentosPrioritarios.end());
-            while(movimentosPrioritarios[0].getCategoria()==proibido){
-                random_shuffle(movimentosPrioritarios.begin(), movimentosPrioritarios.end());
-            }
             movimentar(movimentosPrioritarios);
         }
         else{
             random_shuffle(movimentosPossiveisB.begin(), movimentosPossiveisB.end());
-            while(movimentosPossiveisB[0].getCategoria()==proibido){
-                random_shuffle(movimentosPossiveisB.begin(), movimentosPossiveisB.end());
-            }
             movimentar(movimentosPossiveisB);
         }
         calcularMovimentosPossiveis();
@@ -187,7 +181,6 @@ public:
     }
 
     void calcularMovimentosPossiveis(){
-        vector<Movimento> movimentosReais;
         movimentosPossiveisA.clear();
         movimentosPossiveisB.clear();
         for(int linha = 0;linha<10;linha++){
@@ -217,7 +210,7 @@ public:
         }
         cout<<"Movimentos jogador B"<<endl;
         for(int i = 0; i<movimentosPossiveisB.size();i++){
-            cout<<movimentosPossiveisB[i].getPosicaoInicial()<<"->"<<movimentosPossiveisB[i].getPosicaoFinal()<<movimentosPossiveisA[i].getCategoria()<<endl;
+            cout<<movimentosPossiveisB[i].getPosicaoInicial()<<"->"<<movimentosPossiveisB[i].getPosicaoFinal()<<movimentosPossiveisB[i].getCategoria()<<endl;
         }
     }
 
