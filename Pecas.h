@@ -33,46 +33,40 @@ class Peca{
     void setPosicao(string posicaoFinal){
         posicao = posicaoFinal;
     }
-    virtual vector<Movimento> movimentosPossiveis(){}
-};
-
-class Vazia:public Peca{
-    public:
-    Vazia(string posicao, bool lado):Peca(posicao,vazia,lado){}
-    vector<Movimento> movimentosPossiveis(){
-        vector<Movimento> movimentos;
-        return movimentos;
+    string getPosicao(){
+        return posicao;
     }
-};
-
-class Simples:public Peca{
-    public:
-    Simples(string posicao,bool lado):Peca(posicao,simples,lado){}
     vector<Movimento> movimentosPossiveis(){
-        vector<Movimento> movimentos;
-        int letraPosicao = posicao[0];
-        int numeroFinal = posicao[1]+1;
-        string posicaoFinal = "";
-        posicaoFinal+=char(letraPosicao + 1);
-        posicaoFinal+=numeroFinal;
-        movimentos.push_back(Movimento(posicao,posicaoFinal));
-        posicaoFinal = "";
-        posicaoFinal+=char(letraPosicao - 1);
-        posicaoFinal+=numeroFinal;
-        movimentos.push_back(Movimento(posicao,posicaoFinal));
-        return movimentos;
-    }
-};
-
-class Rainha:public Peca{
-    public:
-    Rainha(string posicao,bool lado):Peca(posicao,rainha,lado){}
-    vector<Movimento> movimentosPossiveis(){
-        string posicaoFinal;
-        int letraPosicao = posicao[0];
-        int numeroFinal = 0;
-        vector<Movimento> movimentos;
-        for(int i = -10; i<10;i++){
+        if(tipo == simples){
+            int movimentador = -1;
+            if(lado){
+                movimentador = 1;
+            }
+            vector<Movimento> movimentos;
+            int letraPosicao = posicao[0];
+            int numeroFinal = posicao[1]+movimentador;
+            string posicaoFinal = "";
+            posicaoFinal+=char(letraPosicao + 1);
+            posicaoFinal+=numeroFinal;
+            movimentos.push_back(Movimento(posicao,posicaoFinal));
+            posicaoFinal = "";
+            posicaoFinal+=char(letraPosicao - 1);
+            posicaoFinal+=numeroFinal;
+            movimentos.push_back(Movimento(posicao,posicaoFinal));
+            return movimentos;
+        }
+        if(tipo == vazia){
+            vector<Movimento> movimentos;
+            Movimento m1("-","-",vazio);
+            movimentos.push_back(Movimento ("-","-",vazio));
+            return movimentos;
+        }
+        if(tipo == rainha){
+            string posicaoFinal;
+            int letraPosicao = posicao[0];
+            int numeroFinal = 0;
+            vector<Movimento> movimentos;
+            for(int i = -10; i<10;i++){
             if(i==0){
                 continue;
             }
@@ -86,7 +80,46 @@ class Rainha:public Peca{
             posicaoFinal+=numeroFinal;
             movimentos.push_back(Movimento(posicao,posicaoFinal));            
         }
+        
         return movimentos;
+        }
+    }
+};
+
+class Vazia:public Peca{
+    public:
+    Vazia(string posicao, bool lado):Peca(posicao,vazia,lado){}
+    vector<Movimento> movimentosPossiveis(){
+        
+    }
+};
+
+class Simples:public Peca{
+    public:
+    Simples(string posicao,bool lado):Peca(posicao,simples,lado){}
+    vector<Movimento> movimentosPossiveis(){
+        vector<Movimento> movimentos;
+        cout<<"entrei";
+        int letraPosicao = posicao[0];
+        int numeroFinal = posicao[1]+1;
+        string posicaoFinal = "";
+        posicaoFinal+=char(letraPosicao + 1);
+        posicaoFinal+=numeroFinal;
+        movimentos.push_back(Movimento(posicao,posicaoFinal));
+        posicaoFinal = "";
+        posicaoFinal+=char(letraPosicao - 1);
+        posicaoFinal+=numeroFinal;
+        movimentos.push_back(Movimento(posicao,posicaoFinal));
+        
+        return movimentos;
+    }
+};
+
+class Rainha:public Peca{
+    public:
+    Rainha(string posicao,bool lado):Peca(posicao,rainha,lado){}
+    vector<Movimento> movimentosPossiveis(){
+        
     }
 };
 

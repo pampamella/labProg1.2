@@ -6,6 +6,7 @@
 #include <iostream>
 #include <algorithm>
 #include <ctime>
+#include <set>
 
 using namespace std;
 
@@ -70,7 +71,7 @@ public:
     }
     void mostrarTabuleiro(){
         for(int linha = 0;linha<10;linha++){
-            cout<<(10-linha)<<" ";
+            cout<<(9-linha)<<" ";
             for(int coluna = 0; coluna<10;coluna++){
                 if(tabuleiro[linha][coluna].getTipo()==vazia){
                     cout<<"_";
@@ -96,45 +97,43 @@ public:
     }
     void inicializarTabuleiro(){
         for(int i = 0;i<10;i++){
+            
             tabuleiro.push_back(vector<Peca>(0,Vazia("a1",0)));
             if(i<4){
                 
                 for(int j = 0;j<10;j++){
                     string posicao = "";
                     if((i+j)%2){
-                        posicao+=char(97+j);
-                        posicao+=(10-i);
+                        posicao=char(97+j);
+                        posicao+=to_string(9-i);
                         tabuleiro[i].push_back(Vazia(posicao,0));
                     }else{
-                        posicao+=char(97+j);
-                        posicao+=(10-i);
+                        posicao=char(97+j);
+                        posicao+=to_string(9-i);
                         tabuleiro[i].push_back(Simples(posicao,false));
                     }
                 }
             }else if(i>=4&&i<6){
                 for(int j = 0; j<10;j++){
                     string posicao = "";
-                    posicao+=char(97+j);
-                    posicao+=(10-i);
-                    tabuleiro[i].push_back(Vazia(posicao,0));
+                    posicao=char(97+j);
+                    posicao+=to_string(9-i);
+                    tabuleiro[i].push_back(Vazia(posicao,false));
                 }
             }else if(i>=6){
                 for(int j = 0;j<10;j++){
                     string posicao = "";
                     if((i+j)%2){
-                        posicao+=char(97+j);
-                        posicao+=(10-i);
-                        tabuleiro[i].push_back(Vazia(posicao,0));
+                        posicao=char(97+j);
+                        posicao+=to_string(9-i);
+                        tabuleiro[i].push_back(Vazia(posicao,false));
                     }else{
-                        posicao+=char(97+j);
-                        posicao+=(10-i);
+                        posicao=char(97+j);
+                        posicao+=to_string(9-i);
                         tabuleiro[i].push_back(Simples(posicao,true));
                     }
                 }
             }
-            
-
-            
         }
     }
     bool fimJogo(){
@@ -165,7 +164,64 @@ public:
         }
         return false;
     }
-    
+
+    void calcularMovimentosPossiveis(){
+        vector<Movimento> movimentosReais;
+        for(int linha = 0;linha<10;linha++){
+            for(int coluna = 0; coluna<10;coluna++){
+                for(int i = 0; i<tabuleiro[linha][coluna].movimentosPossiveis().size();i++){
+                    string posicao = tabuleiro[linha][coluna].movimentosPossiveis()[i].getPosicaoFinal();
+                    if(posicao[0]<'a'||posicao[0]>'j'){
+                        continue;
+                    }
+                    if(posicao[1]<'0'||posicao[1]>'9'){
+                        continue;
+                    }
+                    if(tabuleiro[linha][coluna].getLado()){
+                        movimentosPossiveisA.push_back(tabuleiro[linha][coluna].movimentosPossiveis()[i]);
+                    }else{
+                        movimentosPossiveisB.push_back(tabuleiro[linha][coluna].movimentosPossiveis()[i]);
+                    }
+                }
+            }
+        }
+    }
+
+    void imprimirMovimentos(){
+        cout<<"Movimentos jogador A"<<endl;
+        for(int i = 0; i<movimentosPossiveisA.size();i++){
+            cout<<movimentosPossiveisA[i].getPosicaoInicial()<<"->"<<movimentosPossiveisA[i].getPosicaoFinal()<<endl;
+        }
+        cout<<"Movimentos jogador B"<<endl;
+        for(int i = 0; i<movimentosPossiveisB.size();i++){
+            cout<<movimentosPossiveisB[i].getPosicaoInicial()<<"->"<<movimentosPossiveisB[i].getPosicaoFinal()<<endl;
+        }
+    }
+
+    void limparSobreposicoes(){
+        vector<string> posicoesIniciaisA;
+        vector<string> posicoesIniciaisB;    
+        for(int i = 0;i<movimentosPossiveisA.size();i++){
+            posicoesIniciaisA.push_back(movimentosPossiveisA[i].getPosicaoInicial());
+        }
+        for(int i = 0;i<posicoesIniciaisA.size();i++){
+            for(int j = 0;j<movimentosPossiveisA.size();j++){
+                if(posicoesIniciaisA[i]==movimentosPossiveisA[j].getPosicaoFinal()){
+                    movimentosPossiveisA.erase(movimentosPossiveisA.begin()+j);
+                }
+            }
+        }
+        for(int i = 0;i<movimentosPossiveisB.size();i++){
+            posicoesIniciaisB.push_back(movimentosPossiveisB[i].getPosicaoInicial());
+        }
+        for(int i = 0;i<posicoesIniciaisB.size();i++){
+            for(int j = 0;j<movimentosPossiveisB.size();j++){
+                if(posicoesIniciaisB[i]==movimentosPossiveisB[j].getPosicaoFinal()){
+                    movimentosPossiveisB.erase(movimentosPossiveisB.begin()+j);
+                }
+            }
+        }
+    }
 };
 
 #endif
