@@ -99,7 +99,6 @@ class Simples:public Peca{
     Simples(string posicao,bool lado):Peca(posicao,simples,lado){}
     vector<Movimento> movimentosPossiveis(){
         vector<Movimento> movimentos;
-        cout<<"entrei";
         int letraPosicao = posicao[0];
         int numeroFinal = posicao[1]+1;
         string posicaoFinal = "";

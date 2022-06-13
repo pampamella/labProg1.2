@@ -28,14 +28,21 @@ public:
         if (movimentosPrioritarios[0].getPosicaoInicial() != " ")
         {
             random_shuffle(movimentosPrioritarios.begin(), movimentosPrioritarios.end());
+            while(movimentosPrioritarios[0].getCategoria()==proibido){
+                random_shuffle(movimentosPrioritarios.begin(), movimentosPrioritarios.end());
+            }
             movimentar(movimentosPrioritarios);
         }
         else{
             random_shuffle(movimentosPossiveisB.begin(), movimentosPossiveisB.end());
+            while(movimentosPossiveisB[0].getCategoria()==proibido){
+                random_shuffle(movimentosPossiveisB.begin(), movimentosPossiveisB.end());
+            }
             movimentar(movimentosPossiveisB);
         }
         calcularMovimentosPossiveis();
         limparSobreposicoes();
+        categoriaDosMovimentosSimples();
     }
     bool verificaMovimento(string posicaoInicial, string posicaoFinal){
         return true;
@@ -58,6 +65,7 @@ public:
         }
         calcularMovimentosPossiveis();
         limparSobreposicoes();
+        categoriaDosMovimentosSimples();
     }
     void movimentar(vector<Movimento> &vetor){
         Movimento movimentoSorteado(vetor[0]);
@@ -171,6 +179,8 @@ public:
 
     void calcularMovimentosPossiveis(){
         vector<Movimento> movimentosReais;
+        movimentosPossiveisA.clear();
+        movimentosPossiveisB.clear();
         for(int linha = 0;linha<10;linha++){
             for(int coluna = 0; coluna<10;coluna++){
                 for(int i = 0; i<tabuleiro[linha][coluna].movimentosPossiveis().size();i++){
@@ -204,7 +214,7 @@ public:
 
     void limparSobreposicoes(){
         vector<string> posicoesIniciaisA;
-        vector<string> posicoesIniciaisB;    
+        vector<string> posicoesIniciaisB;   
         for(int i = 0;i<movimentosPossiveisA.size();i++){
             posicoesIniciaisA.push_back(movimentosPossiveisA[i].getPosicaoInicial());
         }
@@ -225,32 +235,46 @@ public:
                 }
             }
         }
+
     }
     void categoriaDosMovimentosSimples(){
+        limparSobreposicoes();
         for(int i = 0;i<movimentosPossiveisA.size();i++){
-            int linha = (int)movimentosPossiveisA[i].getPosicaoFinal()[0]-97;
-            int coluna = 57-movimentosPossiveisA[i].getPosicaoFinal()[1];
-            cout<<linha<<" "<<coluna<<endl;
+            int coluna = (int)movimentosPossiveisA[i].getPosicaoFinal()[0]-97;
+            int linha = 57-movimentosPossiveisA[i].getPosicaoFinal()[1];
             if(tabuleiro[linha][coluna].getTipo()==vazia){
                 movimentosPossiveisA[i].setCategoria(normal);
             }
-            if(tabuleiro[linha][coluna].getTipo()==simples){
-                if(tabuleiro[linha-1][coluna+1].getTipo()==simples){continue;}
-                if(tabuleiro[linha-1][coluna-1].getTipo()==simples){continue;}
-                movimentosPossiveisA[i].setCategoria(captura);
+            else if(tabuleiro[linha][coluna].getTipo()==simples){
+                if(linha-1>=0&&coluna+1<10&&tabuleiro[linha-1][coluna+1].getTipo()==vazia){
+                    movimentosPossiveisA[i].setCategoria(captura);
+                    }
+                else if(linha-1>=0&&coluna-1>=0&&tabuleiro[linha-1][coluna-1].getTipo()==vazia){
+                    movimentosPossiveisA[i].setCategoria(captura);
+                    }
+                else{
+                    movimentosPossiveisA.erase(movimentosPossiveisA.begin()+i);
+                }
             }
         }
         for(int i = 0;i<movimentosPossiveisB.size();i++){
-            int linha = (int)movimentosPossiveisB[i].getPosicaoFinal()[0]-97;
-            int coluna = 57-movimentosPossiveisB[i].getPosicaoFinal()[1];
-            cout<<linha<<" "<<coluna<<endl;
+            int coluna = (int)movimentosPossiveisB[i].getPosicaoFinal()[0]-97;
+            int linha = 57-movimentosPossiveisB[i].getPosicaoFinal()[1];
             if(tabuleiro[linha][coluna].getTipo()==vazia){
                 movimentosPossiveisB[i].setCategoria(normal);
             }
-            if(tabuleiro[linha][coluna].getTipo()==simples){
-                if(tabuleiro[linha+1][coluna+1].getTipo()==simples){continue;}
-                if(tabuleiro[linha+1][coluna-1].getTipo()==simples){continue;}
-                movimentosPossiveisB[i].setCategoria(captura);
+            else if(tabuleiro[linha][coluna].getTipo()==simples){
+                if(linha+1<10&&coluna+1<10&&tabuleiro[linha+1][coluna+1].getTipo()==vazia){
+                    movimentosPossiveisB[i].setCategoria(captura);
+                    cout<<linha<<" "<<coluna<<endl;
+                    }
+                else if(linha+1<10&&coluna-1>=0&&tabuleiro[linha+1][coluna-1].getTipo()==vazia){
+                    movimentosPossiveisB[i].setCategoria(captura);
+                    cout<<linha<<" "<<coluna<<endl;
+                    }
+                else{
+                    movimentosPossiveisB.erase(movimentosPossiveisB.begin()+i);
+                }    
             }
         }
     }
@@ -258,7 +282,6 @@ public:
         for(int i = 0;i<movimentosPossiveisA.size();i++){
             int linha = (int)movimentosPossiveisA[i].getPosicaoFinal()[0]-97;
             int coluna = 57-movimentosPossiveisA[i].getPosicaoFinal()[1];
-            cout<<linha<<" "<<coluna<<endl;
             if(tabuleiro[linha][coluna].getTipo()==vazia){
                 movimentosPossiveisA[i].setCategoria(normal);
             }
@@ -271,7 +294,6 @@ public:
         for(int i = 0;i<movimentosPossiveisB.size();i++){
             int linha = (int)movimentosPossiveisB[i].getPosicaoFinal()[0]-97;
             int coluna = 57-movimentosPossiveisB[i].getPosicaoFinal()[1];
-            cout<<linha<<" "<<coluna<<endl;
             if(tabuleiro[linha][coluna].getTipo()==vazia){
                 movimentosPossiveisB[i].setCategoria(normal);
             }
