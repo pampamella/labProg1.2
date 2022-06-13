@@ -34,6 +34,8 @@ public:
             random_shuffle(movimentosPossiveisB.begin(), movimentosPossiveisB.end());
             movimentar(movimentosPossiveisB);
         }
+        calcularMovimentosPossiveis();
+        limparSobreposicoes();
     }
     bool verificaMovimento(string posicaoInicial, string posicaoFinal){
         return true;
@@ -42,32 +44,34 @@ public:
         bool movimentoPossivel = verificaMovimento(posicaoInicial, posicaoFinal);
         if(movimentoPossivel){
             int x = posicaoInicial[0] - 97;
-            int y = posicaoInicial[1];
-            Peca pecaMovimentada = tabuleiro[x][y];
+            int y = posicaoInicial[1] - 48;
+            Peca pecaMovimentada = tabuleiro[9-y][x];
             Peca pecaVazia(posicaoInicial, vazia, true);
-            tabuleiro[x][y] = pecaVazia;
+            tabuleiro[9-y][x] = pecaVazia;
             x = posicaoFinal[0] - 97;
-            y = posicaoFinal[1];
+            y = posicaoFinal[1] - 48;
             pecaMovimentada.setPosicao(posicaoFinal);
-            tabuleiro[x][y] = pecaMovimentada;
+            tabuleiro[9-y][x] = pecaMovimentada;
         }
         else{
             cout << "Jogada invalida!" << endl;
         }
+        calcularMovimentosPossiveis();
+        limparSobreposicoes();
     }
     void movimentar(vector<Movimento> &vetor){
         Movimento movimentoSorteado(vetor[0]);
         string posInicial = movimentoSorteado.getPosicaoInicial();
         int x = posInicial[0] - 97;
-        int y = posInicial[1];
-        Peca pecaMovimentada = tabuleiro[x][y];
+        int y = posInicial[1] - 48;
+        Peca pecaMovimentada = tabuleiro[9-y][x];
         Peca pecaVazia(posInicial, vazia, false);
-        tabuleiro[x][y] = pecaVazia;
+        tabuleiro[9-y][x] = pecaVazia;
         string posFinal = movimentoSorteado.getPosicaoFinal();
         x = posFinal[0] - 97;
-        y = posFinal[1];
+        y = posFinal[1] - 48;
         pecaMovimentada.setPosicao(posFinal);
-        tabuleiro[x][y] = pecaMovimentada;
+        tabuleiro[9-y][x] = pecaMovimentada;
     }
     void mostrarTabuleiro(){
         for(int linha = 0;linha<10;linha++){
