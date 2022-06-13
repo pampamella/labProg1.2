@@ -190,11 +190,11 @@ public:
     void imprimirMovimentos(){
         cout<<"Movimentos jogador A"<<endl;
         for(int i = 0; i<movimentosPossiveisA.size();i++){
-            cout<<movimentosPossiveisA[i].getPosicaoInicial()<<"->"<<movimentosPossiveisA[i].getPosicaoFinal()<<endl;
+            cout<<movimentosPossiveisA[i].getPosicaoInicial()<<"->"<<movimentosPossiveisA[i].getPosicaoFinal()<<movimentosPossiveisA[i].getCategoria()<<endl;
         }
         cout<<"Movimentos jogador B"<<endl;
         for(int i = 0; i<movimentosPossiveisB.size();i++){
-            cout<<movimentosPossiveisB[i].getPosicaoInicial()<<"->"<<movimentosPossiveisB[i].getPosicaoFinal()<<endl;
+            cout<<movimentosPossiveisB[i].getPosicaoInicial()<<"->"<<movimentosPossiveisB[i].getPosicaoFinal()<<movimentosPossiveisA[i].getCategoria()<<endl;
         }
     }
 
@@ -219,6 +219,62 @@ public:
                 if(posicoesIniciaisB[i]==movimentosPossiveisB[j].getPosicaoFinal()){
                     movimentosPossiveisB.erase(movimentosPossiveisB.begin()+j);
                 }
+            }
+        }
+    }
+    void categoriaDosMovimentosSimples(){
+        for(int i = 0;i<movimentosPossiveisA.size();i++){
+            int linha = (int)movimentosPossiveisA[i].getPosicaoFinal()[0]-97;
+            int coluna = 57-movimentosPossiveisA[i].getPosicaoFinal()[1];
+            cout<<linha<<" "<<coluna<<endl;
+            if(tabuleiro[linha][coluna].getTipo()==vazia){
+                movimentosPossiveisA[i].setCategoria(normal);
+            }
+            if(tabuleiro[linha][coluna].getTipo()==simples){
+                if(tabuleiro[linha-1][coluna+1].getTipo()==simples){continue;}
+                if(tabuleiro[linha-1][coluna-1].getTipo()==simples){continue;}
+                movimentosPossiveisA[i].setCategoria(captura);
+            }
+        }
+        for(int i = 0;i<movimentosPossiveisB.size();i++){
+            int linha = (int)movimentosPossiveisB[i].getPosicaoFinal()[0]-97;
+            int coluna = 57-movimentosPossiveisB[i].getPosicaoFinal()[1];
+            cout<<linha<<" "<<coluna<<endl;
+            if(tabuleiro[linha][coluna].getTipo()==vazia){
+                movimentosPossiveisB[i].setCategoria(normal);
+            }
+            if(tabuleiro[linha][coluna].getTipo()==simples){
+                if(tabuleiro[linha+1][coluna+1].getTipo()==simples){continue;}
+                if(tabuleiro[linha+1][coluna-1].getTipo()==simples){continue;}
+                movimentosPossiveisB[i].setCategoria(captura);
+            }
+        }
+    }
+    void categoriaDosMovimentosRainha(){
+        for(int i = 0;i<movimentosPossiveisA.size();i++){
+            int linha = (int)movimentosPossiveisA[i].getPosicaoFinal()[0]-97;
+            int coluna = 57-movimentosPossiveisA[i].getPosicaoFinal()[1];
+            cout<<linha<<" "<<coluna<<endl;
+            if(tabuleiro[linha][coluna].getTipo()==vazia){
+                movimentosPossiveisA[i].setCategoria(normal);
+            }
+            if(tabuleiro[linha][coluna].getTipo()==simples){
+                if(tabuleiro[linha-1][coluna+1].getTipo()==simples){continue;}
+                if(tabuleiro[linha-1][coluna-1].getTipo()==simples){continue;}
+                movimentosPossiveisA[i].setCategoria(captura);
+            }
+        }
+        for(int i = 0;i<movimentosPossiveisB.size();i++){
+            int linha = (int)movimentosPossiveisB[i].getPosicaoFinal()[0]-97;
+            int coluna = 57-movimentosPossiveisB[i].getPosicaoFinal()[1];
+            cout<<linha<<" "<<coluna<<endl;
+            if(tabuleiro[linha][coluna].getTipo()==vazia){
+                movimentosPossiveisB[i].setCategoria(normal);
+            }
+            if(tabuleiro[linha][coluna].getTipo()==simples){
+                if(tabuleiro[linha+1][coluna+1].getTipo()==simples){continue;}
+                if(tabuleiro[linha+1][coluna-1].getTipo()==simples){continue;}
+                movimentosPossiveisB[i].setCategoria(captura);
             }
         }
     }
