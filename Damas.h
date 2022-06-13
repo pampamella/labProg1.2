@@ -34,6 +34,26 @@ public:
             movimentar(movimentosPossiveisB);
         }
     }
+    bool verificaMovimento(string posicaoInicial, string posicaoFinal){
+        return true;
+    }
+    void Jogar(string posicaoInicial, string posicaoFinal){
+        bool movimentoPossivel = verificaMovimento(posicaoInicial, posicaoFinal);
+        if(movimentoPossivel){
+            int x = posicaoInicial[0] - 97;
+            int y = posicaoInicial[1];
+            Peca pecaMovimentada = tabuleiro[x][y];
+            Peca pecaVazia(posicaoInicial, vazia, true);
+            tabuleiro[x][y] = pecaVazia;
+            x = posicaoFinal[0] - 97;
+            y = posicaoFinal[1];
+            pecaMovimentada.setPosicao(posicaoFinal);
+            tabuleiro[x][y] = pecaMovimentada;
+        }
+        else{
+            cout << "Jogada invalida!" << endl;
+        }
+    }
     void movimentar(vector<Movimento> &vetor){
         Movimento movimentoSorteado(vetor[0]);
         string posInicial = movimentoSorteado.getPosicaoInicial();
@@ -145,6 +165,7 @@ public:
         }
         return false;
     }
+    
 };
 
 #endif
