@@ -6,10 +6,11 @@
 using namespace std;
 
 enum tipoMovimento {
-    normal,
+    normal=0,
     captura,
     convertRainha,
-    vazio
+    vazio,
+    proibido
 };
 
 class Movimento {
