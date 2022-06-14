@@ -21,23 +21,24 @@ public:
     Damas() : jogadorAtual(true) {}
     void Jogar()
     {
+        cout<<"Jogada do computador:"<<endl;
         srand(unsigned(time(0)));
         vector<Movimento> movimentosPrioritarios(movimentosPossiveisB.size());
+        random_shuffle(movimentosPossiveisB.begin(), movimentosPossiveisB.end());
         copy_if(movimentosPossiveisB.begin(), movimentosPossiveisB.end(), movimentosPrioritarios.begin(), [](Movimento i)
                 { return i.getCategoria() == captura || i.getCategoria() == convertRainha; });
-        if (movimentosPrioritarios[0].getPosicaoInicial() != " ")
-        {
-            random_shuffle(movimentosPrioritarios.begin(), movimentosPrioritarios.end());
+
+        if (movimentosPrioritarios[0].getPosicaoInicial() != " "){
             movimentar(movimentosPrioritarios);
-        }
-        else{
-            random_shuffle(movimentosPossiveisB.begin(), movimentosPossiveisB.end());
+        }else{
             movimentar(movimentosPossiveisB);
         }
         calcularMovimentosPossiveis();
         limparSobreposicoes();
         categoriaDosMovimentosSimples();
+        mostrarTabuleiro();
     }
+
     bool verificaMovimento(string posicaoInicial, string posicaoFinal){
         Movimento tentativaMovimento(posicaoInicial, posicaoFinal);
         vector<Movimento>::iterator it;
@@ -50,9 +51,11 @@ public:
         cout << "Movimento invalido!" << endl;
         return false;
     }
-    void Jogar(string posicaoInicial, string posicaoFinal){
+
+    bool Jogar(string posicaoInicial, string posicaoFinal){
         bool movimentoPossivel = verificaMovimento(posicaoInicial, posicaoFinal);
         if(movimentoPossivel){
+            cout<<"Jogada do jogador:"<<endl;
             int x = posicaoInicial[0] - 97;
             int y = posicaoInicial[1] - 48;
             Peca pecaMovimentada = tabuleiro[9-y][x];
@@ -63,14 +66,13 @@ public:
             pecaMovimentada.setPosicao(posicaoFinal);
             tabuleiro[9-y][x] = pecaMovimentada;
         }
-        else{
-            cout << "Jogada invalida!" << endl;
-        }
         calcularMovimentosPossiveis();
         limparSobreposicoes();
         categoriaDosMovimentosSimples();
+        mostrarTabuleiro();
+        return movimentoPossivel;
     }
-    void movimentar(vector<Movimento> &vetor){
+    void movimentar(vector<Movimento> vetor){
         Movimento movimentoSorteado(vetor[0]);
         string posInicial = movimentoSorteado.getPosicaoInicial();
         int x = posInicial[0] - 97;
@@ -240,7 +242,7 @@ public:
 
     }
     void categoriaDosMovimentosSimples(){
-        limparSobreposicoes();
+        int qtd = movimentosPossiveisA.size();
         for(int i = 0;i<movimentosPossiveisA.size();i++){
             int coluna = (int)movimentosPossiveisA[i].getPosicaoFinal()[0]-97;
             int linha = 57-movimentosPossiveisA[i].getPosicaoFinal()[1];
@@ -259,6 +261,7 @@ public:
                 }
             }
         }
+        qtd = movimentosPossiveisB.size();
         for(int i = 0;i<movimentosPossiveisB.size();i++){
             int coluna = (int)movimentosPossiveisB[i].getPosicaoFinal()[0]-97;
             int linha = 57-movimentosPossiveisB[i].getPosicaoFinal()[1];
@@ -268,11 +271,9 @@ public:
             else if(tabuleiro[linha][coluna].getTipo()==simples){
                 if(linha+1<10&&coluna+1<10&&tabuleiro[linha+1][coluna+1].getTipo()==vazia){
                     movimentosPossiveisB[i].setCategoria(captura);
-                    cout<<linha<<" "<<coluna<<endl;
                     }
                 else if(linha+1<10&&coluna-1>=0&&tabuleiro[linha+1][coluna-1].getTipo()==vazia){
                     movimentosPossiveisB[i].setCategoria(captura);
-                    cout<<linha<<" "<<coluna<<endl;
                     }
                 else{
                     movimentosPossiveisB.erase(movimentosPossiveisB.begin()+i);
