@@ -21,6 +21,9 @@ public:
     Damas() : jogadorAtual(true) {}
     void Jogar()
     {
+        if(fimJogo()){
+            return;
+        }
         cout<<"Jogada do computador:"<<endl;
         srand(unsigned(time(0)));
         vector<Movimento> movimentosPrioritarios(movimentosPossiveisB.size());
@@ -40,6 +43,10 @@ public:
     }
     void JogarA()
     {
+        if(fimJogo()){
+            return;
+        }
+
         cout<<"Jogada do computador A:"<<endl;
         srand(unsigned(time(0)));
         vector<Movimento> movimentosPrioritarios(movimentosPossiveisA.size());
@@ -94,12 +101,12 @@ public:
     void movimentar(vector<Movimento> vetor){
         Movimento movimentoSorteado(vetor[0]);
         string posInicial = movimentoSorteado.getPosicaoInicial();
+        string posFinal = movimentoSorteado.getPosicaoFinal();
         int x = posInicial[0] - 97;
         int y = posInicial[1] - 48;
         Peca pecaMovimentada = tabuleiro[9-y][x];
         Peca pecaVazia(posInicial, vazia, false);
         tabuleiro[9-y][x] = pecaVazia;
-        string posFinal = movimentoSorteado.getPosicaoFinal();
         x = posFinal[0] - 97;
         y = posFinal[1] - 48;
         pecaMovimentada.setPosicao(posFinal);
@@ -107,15 +114,38 @@ public:
         if(movimentoSorteado.getCategoria()==convertRainha){
             converterRainha(posFinal);
         }
+        if(movimentoSorteado.getCategoria()==captura){
+            capturarPeca(posInicial,posFinal);
+        }
+    }
+    void capturarPeca(string posInicial,string posFinal){
+        int xInicial = posInicial[0] ;
+        int yInicial = posInicial[1];
+        int xFinal = posFinal[0] ;
+        int yFinal = posFinal[1] ;
+        int varX = (xFinal-xInicial)/abs(xFinal-xInicial);
+        int varY = (yFinal-yInicial)/abs(yFinal-yInicial);
+        string posCaptura = "";
+        posCaptura+=char(xFinal+varX);
+        posCaptura+=yFinal+varY;
+        vector<Movimento> movCaptura;
+        Movimento mov(posFinal,posCaptura);
+        cout<<yFinal+varY-48<<endl;
+        if(yFinal+varY-48==9||yFinal+varY-48==0){
+            if(tabuleiro[9-yFinal][xFinal].getTipo()!=rainha);
+            mov.setCategoria(convertRainha);
+        }
+        movCaptura.push_back(mov);
+        movimentar(movCaptura);
+
     }
     void converterRainha(string posicao){
         int x = posicao[0] - 97;
         int y = posicao[1] - 48;
-        Peca pecaMovimentada = tabuleiro[9-y][x];
-        if(pecaMovimentada.getTipo() == rainha){
+        if(tabuleiro[9-y][x].getTipo() == rainha){
             return;
         }
-        pecaMovimentada.setTipo(rainha); 
+        tabuleiro[9-y][x].setTipo(rainha); 
     }
     void mostrarTabuleiro(){
         for(int linha = 0;linha<10;linha++){
@@ -291,7 +321,7 @@ public:
                     movimentosPossiveisA.erase(movimentosPossiveisA.begin()+i);
                 }
             }
-            else if(linha==0){
+            if(linha==0){
                  movimentosPossiveisA[i].setCategoria(convertRainha);
             }
         }
@@ -313,7 +343,7 @@ public:
                     movimentosPossiveisB.erase(movimentosPossiveisB.begin()+i);
                 }    
             }
-             else if(linha==9){
+            if(linha==9){
                  movimentosPossiveisB[i].setCategoria(convertRainha);
             }
         }
