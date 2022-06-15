@@ -11,11 +11,12 @@ int main(){
     
     int contador = 0;
     while(!Dama.fimJogo()){
-        string posInicial, posFinal;
-        do{
-            cin >> posInicial>> posFinal;
-        }
-        while(!Dama.Jogar(posInicial, posFinal));
+        // string posInicial, posFinal;
+        // do{
+        //     cin >> posInicial>> posFinal;
+        // }
+        // while(!Dama.Jogar(posInicial, posFinal));
+        Dama.JogarA();
         Dama.Jogar();
     }
 
