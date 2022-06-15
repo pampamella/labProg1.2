@@ -7,6 +7,10 @@
 #include <algorithm>
 #include <ctime>
 #include <set>
+#define ESC "\033["
+#define RED_TXT "31"
+#define GREEN_TXT "32"
+#define RESET "\033[m"
 
 using namespace std;
 
@@ -152,26 +156,29 @@ public:
             cout<<(9-linha)<<" ";
             for(int coluna = 0; coluna<10;coluna++){
                 if(tabuleiro[linha][coluna].getTipo()==vazia){
-                    cout<<"_";
+                    cout<<" _ ";
                     continue;
                 }
                 if(tabuleiro[linha][coluna].getLado()==true){
                     if(tabuleiro[linha][coluna].getTipo()==rainha){
-                        cout<<"A";
+                        // cout<<"A";
+                        cout << ESC << ";" << RED_TXT <<"m"<< " O " << RESET;
                         continue;
                     }
-                    cout<<"a";
+                    cout << ESC << ";" << RED_TXT <<"m"<< " o " << RESET;
                 }else if(tabuleiro[linha][coluna].getLado()==false){
                     if(tabuleiro[linha][coluna].getTipo()==rainha){
-                        cout<<"B";
+                        cout << ESC << ";" << GREEN_TXT <<"m"<< " O " << RESET;
                         continue;
                     }
-                    cout<<"b";
+                    cout << ESC << ";" << GREEN_TXT <<"m"<< " o " << RESET;
                 }
             }
             cout<<endl;
+            cout<<endl;
+
         }
-        cout<<"  abcdefghij"<<endl;
+        cout<<"   a  b  c  d  e  f  g  h  i  j"<<endl;
     }
     void inicializarTabuleiro(){
         for(int i = 0;i<10;i++){
