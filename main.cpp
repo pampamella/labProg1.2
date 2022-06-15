@@ -1,4 +1,6 @@
 #include "Damas.h"
+#include <thread>
+#include <chrono>
 
 
 int main(){
@@ -18,6 +20,7 @@ int main(){
         // while(!Dama.Jogar(posInicial, posFinal));
         Dama.JogarA();
         Dama.Jogar();
+        this_thread::sleep_for(chrono::milliseconds(2000) );
     }
 
     return 0;
