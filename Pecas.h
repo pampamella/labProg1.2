@@ -36,6 +36,9 @@ class Peca{
     string getPosicao(){
         return posicao;
     }
+    void setTipo(tiposDePeca novoTipo){
+        tipo = novoTipo;
+    }
     vector<Movimento> movimentosPossiveis(){
         if(tipo == simples){
             int movimentador = -1;
