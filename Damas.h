@@ -38,6 +38,25 @@ public:
         categoriaDosMovimentosSimples();
         mostrarTabuleiro();
     }
+    void JogarA()
+    {
+        cout<<"Jogada do computador A:"<<endl;
+        srand(unsigned(time(0)));
+        vector<Movimento> movimentosPrioritarios(movimentosPossiveisA.size());
+        random_shuffle(movimentosPossiveisA.begin(), movimentosPossiveisA.end());
+        copy_if(movimentosPossiveisA.begin(), movimentosPossiveisA.end(), movimentosPrioritarios.begin(), [](Movimento i)
+                { return i.getCategoria() == captura || i.getCategoria() == convertRainha; });
+
+        if (movimentosPrioritarios[0].getPosicaoInicial() != " "){
+            movimentar(movimentosPrioritarios);
+        }else{
+            movimentar(movimentosPossiveisA);
+        }
+        calcularMovimentosPossiveis();
+        limparSobreposicoes();
+        categoriaDosMovimentosSimples();
+        mostrarTabuleiro();
+    }
 
     bool verificaMovimento(string posicaoInicial, string posicaoFinal){
         Movimento tentativaMovimento(posicaoInicial, posicaoFinal);
