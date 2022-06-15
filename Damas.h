@@ -85,22 +85,18 @@ public:
         y = posFinal[1] - 48;
         pecaMovimentada.setPosicao(posFinal);
         tabuleiro[9-y][x] = pecaMovimentada;
-        converterRainha(posInicial, posFinal);
+        if(movimentoSorteado.getCategoria()==convertRainha){
+            converterRainha(posFinal);
+        }
     }
-    void converterRainha(string posicaoInicial, string posicaoFinal){
-        int xInicial = posicaoInicial[0] - 97;
-        int yInicial = posicaoInicial[1] - 48;
-        int yFinal = posicaoFinal[1] - 48;
-        Peca pecaMovimentada = tabuleiro[9-yInicial][xInicial];
+    void converterRainha(string posicao){
+        int x = posicao[0] - 97;
+        int y = posicao[1] - 48;
+        Peca pecaMovimentada = tabuleiro[9-y][x];
         if(pecaMovimentada.getTipo() == rainha){
             return;
         }
-        if(yFinal=='0' && yInicial != '0'){
-            pecaMovimentada.setTipo(rainha);            
-        }
-        if(yFinal=='9' && yInicial != '9'){
-            pecaMovimentada.setTipo(rainha);  
-        }
+        pecaMovimentada.setTipo(rainha); 
     }
     void mostrarTabuleiro(){
         for(int linha = 0;linha<10;linha++){
@@ -266,15 +262,18 @@ public:
                 movimentosPossiveisA[i].setCategoria(normal);
             }
             else if(tabuleiro[linha][coluna].getTipo()==simples){
-                if(linha-1>=0&&coluna+1<10&&tabuleiro[linha-1][coluna+1].getTipo()==vazia){
+                if(linha - 1>=0 && coluna + 1<10 && tabuleiro[linha-1][coluna+1].getTipo() == vazia){
                     movimentosPossiveisA[i].setCategoria(captura);
                     }
-                else if(linha-1>=0&&coluna-1>=0&&tabuleiro[linha-1][coluna-1].getTipo()==vazia){
+                else if(linha - 1>=0 && coluna-1>=0 && tabuleiro[linha-1][coluna-1].getTipo() == vazia){
                     movimentosPossiveisA[i].setCategoria(captura);
                     }
                 else{
                     movimentosPossiveisA.erase(movimentosPossiveisA.begin()+i);
                 }
+            }
+            else if(linha==0){
+                 movimentosPossiveisA[i].setCategoria(convertRainha);
             }
         }
         qtd = movimentosPossiveisB.size();
@@ -294,6 +293,9 @@ public:
                 else{
                     movimentosPossiveisB.erase(movimentosPossiveisB.begin()+i);
                 }    
+            }
+             else if(linha==9){
+                 movimentosPossiveisB[i].setCategoria(convertRainha);
             }
         }
     }
