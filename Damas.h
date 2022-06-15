@@ -277,6 +277,15 @@ public:
         }
     }
 
+    vector<int> posicaoStringInt(string posicao){
+        vector<int> vetor;
+        int letra = posicao[0];
+        int numero = posicao[1];
+        vetor.push_back(57-numero);
+        vetor.push_back(letra-97);
+        return vetor;
+    }   
+
     void limparSobreposicoes(){
         vector<string> posicoesIniciaisA;
         vector<string> posicoesIniciaisB;   
@@ -286,6 +295,23 @@ public:
         for(int i = 0;i<posicoesIniciaisA.size();i++){
             for(int j = 0;j<movimentosPossiveisA.size();j++){
                 if(posicoesIniciaisA[i]==movimentosPossiveisA[j].getPosicaoFinal()){
+                    vector<int> posInicial = posicaoStringInt(movimentosPossiveisA[j].getPosicaoInicial());
+                    vector<int> posFinal = posicaoStringInt(movimentosPossiveisA[j].getPosicaoFinal());
+                    int difLetra = (posFinal[1]-posInicial[1])/abs(posFinal[1]-posInicial[1]);
+                    int difNumero = (posFinal[0]-posInicial[0])/abs(posFinal[0]-posInicial[0]);
+                    int contador = 0;
+                    if(tabuleiro[posInicial[0]][posInicial[1]].getTipo()==rainha){
+                        while(movimentosPossiveisA[j+1].getPosicaoFinal()==posicoesIniciaisA[i]){
+                            vector<int> checkPos = posicaoStringInt(movimentosPossiveisA[j+contador].getPosicaoFinal());
+                            int checkDifNumero = (checkPos[0]-posInicial[0])/abs(checkPos[0]-posInicial[0]);
+                            int checkDifLetra = (checkPos[1]-posInicial[1])/abs(checkPos[1]-posInicial[1]);
+                            if(difNumero!=checkDifNumero || difLetra!=checkDifLetra){
+                                contador++;
+                                continue;
+                            }
+                            movimentosPossiveisA.erase(movimentosPossiveisA.begin()+j+contador);
+                        }
+                    }
                     movimentosPossiveisA.erase(movimentosPossiveisA.begin()+j);
                 }
             }
@@ -301,6 +327,7 @@ public:
             }
         }
 
+
     }
     void categoriaDosMovimentosSimples(){
         int qtd = movimentosPossiveisA.size();
@@ -310,7 +337,7 @@ public:
             if(tabuleiro[linha][coluna].getTipo()==vazia){
                 movimentosPossiveisA[i].setCategoria(normal);
             }
-            else if(tabuleiro[linha][coluna].getTipo()==simples){
+            else if(tabuleiro[linha][coluna].getTipo()==simples||tabuleiro[linha][coluna].getTipo()==rainha){
                 if(linha - 1>=0 && coluna + 1<10 && tabuleiro[linha-1][coluna+1].getTipo() == vazia){
                     movimentosPossiveisA[i].setCategoria(captura);
                     }
