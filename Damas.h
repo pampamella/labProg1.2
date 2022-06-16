@@ -378,15 +378,22 @@ public:
             bool quebra=true;
             int coluna = (int)movimentosPossiveisB[i].getPosicaoFinal()[0]-97;
             int linha = 57-movimentosPossiveisB[i].getPosicaoFinal()[1];
+            int colunaInicial = (int)movimentosPossiveisB[i].getPosicaoInicial()[0]-97;
+            int linhaInicial = 57-movimentosPossiveisB[i].getPosicaoInicial()[1];
+            int varColuna = (coluna-colunaInicial)/abs(coluna-colunaInicial);
+            if(varColuna == -1){varColuna = 0;}
+            if(tabuleiro[linha][coluna].getTipo()==vazia){
+                movimentosPossiveisB[i].setCategoria(normal);
+            }
             if(tabuleiro[linha][coluna].getTipo()==vazia){
                 movimentosPossiveisB[i].setCategoria(normal);
             }
             else if(tabuleiro[linha][coluna].getTipo()==simples){
-                if(linha+1<10&&coluna+1<10&&tabuleiro[linha+1][coluna+1].getTipo()==vazia){
+                if(linha+1<10&&coluna+1<10&&tabuleiro[linha+1][coluna+1].getTipo()==vazia&&varColuna){
                     movimentosPossiveisB[i].setCategoria(captura);
                     quebra=false;
                     }
-                else if(linha+1<10&&coluna-1>=0&&tabuleiro[linha+1][coluna-1].getTipo()==vazia&&!quebra){
+                else if(linha+1<10&&coluna-1>=0&&tabuleiro[linha+1][coluna-1].getTipo()==vazia&&!varColuna){
                     movimentosPossiveisB[i].setCategoria(captura);
                     }
                 else{
