@@ -1,6 +1,4 @@
 #include "Damas.h"
-#include <thread>
-#include <chrono>
 
 
 int main(){
