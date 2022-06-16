@@ -92,9 +92,6 @@ class Peca{
 class Vazia:public Peca{
     public:
     Vazia(string posicao, bool lado):Peca(posicao,vazia,lado){}
-    // vector<Movimento> movimentosPossiveis(){
-        
-    // }
 };
 
 class Simples:public Peca{
@@ -120,9 +117,6 @@ class Simples:public Peca{
 class Rainha:public Peca{
     public:
     Rainha(string posicao,bool lado):Peca(posicao,rainha,lado){}
-    // vector<Movimento> movimentosPossiveis(){
-        
-    // }
 };
 
 
