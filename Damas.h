@@ -23,7 +23,7 @@ private:
     vector<Movimento> movimentosPossiveisB;
 public:
     Damas() : jogadorAtual(true) {}
-    void Jogar()
+    void JogarB()
     {
         if(fimJogo()){
             return;
@@ -82,7 +82,7 @@ public:
         return false;
     }
 
-    bool Jogar(string posicaoInicial, string posicaoFinal){
+    bool JogarA(string posicaoInicial, string posicaoFinal){
         if(fimJogo()){
             return false;
         }
@@ -355,22 +355,22 @@ public:
             bool quebra = true;
             int coluna = (int)movimentosPossiveisA[i].getPosicaoFinal()[0]-97;
             int linha = 57-movimentosPossiveisA[i].getPosicaoFinal()[1];
+            int colunaInicial = (int)movimentosPossiveisA[i].getPosicaoInicial()[0]-97;
+            int linhaInicial = 57-movimentosPossiveisA[i].getPosicaoInicial()[1];
+            int varColuna = (coluna-colunaInicial)/abs(coluna-colunaInicial);
             if(tabuleiro[linha][coluna].getTipo()==vazia){
                 movimentosPossiveisA[i].setCategoria(normal);
             }
             else if(tabuleiro[linha][coluna].getTipo()==simples||tabuleiro[linha][coluna].getTipo()==rainha){
-                if(linha - 1>=0 && coluna + 1<10 && tabuleiro[linha-1][coluna+1].getTipo() == vazia){
-                    movimentosPossiveisA[i].setCategoria(captura);
-                    quebra=false;
-                    }
-                else if(linha - 1>=0 && coluna-1>=0 && tabuleiro[linha-1][coluna-1].getTipo() == vazia && !quebra){
+                if(linha - 1>=0 && coluna + varColuna<10 && tabuleiro[linha-1][coluna+varColuna].getTipo() == vazia){
                     movimentosPossiveisA[i].setCategoria(captura);
                     }
                 else{
                     movimentosPossiveisA.erase(movimentosPossiveisA.begin()+i);
+                    i--;
                 }
             }
-            else if(linha==0){
+            if(linha==0){
                  movimentosPossiveisA[i].setCategoria(convertRainha);
             }
         }
@@ -390,9 +390,10 @@ public:
                     }
                 else{
                     movimentosPossiveisB.erase(movimentosPossiveisB.begin()+i);
+                    i--;
                 }    
             }
-            else if(linha==9){
+            if(linha==9){
                  movimentosPossiveisB[i].setCategoria(convertRainha);
             }
         }

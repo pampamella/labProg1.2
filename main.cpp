@@ -17,10 +17,10 @@ int main(){
         do{
             cin >> posInicial>> posFinal;
         }
-        while(!Dama.Jogar(posInicial, posFinal));
+        while(!Dama.JogarA(posInicial, posFinal));
         // Dama.JogarA();
         // this_thread::sleep_for(chrono::milliseconds(1000) );
-        Dama.Jogar();
+        Dama.JogarB();
         // this_thread::sleep_for(chrono::milliseconds(1000) );
     }
 
