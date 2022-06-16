@@ -88,6 +88,11 @@ public:
         }
         bool movimentoPossivel = verificaMovimento(posicaoInicial, posicaoFinal);
         Movimento movimentoEscolhido(posicaoInicial, posicaoFinal);
+
+        vector<Movimento>::iterator it;
+        it = find_if(movimentosPossiveisA.begin(), movimentosPossiveisA.end(), [&movimentoEscolhido](Movimento i) {
+            return i.getPosicaoInicial() == movimentoEscolhido.getPosicaoInicial() && i.getPosicaoFinal() == movimentoEscolhido.getPosicaoFinal();
+        });
        
         if(movimentoPossivel){
             cout<<"Jogada do jogador:"<<endl;
@@ -100,10 +105,10 @@ public:
             y = posicaoFinal[1] - 48;
             pecaMovimentada.setPosicao(posicaoFinal);
             tabuleiro[9-y][x] = pecaMovimentada;
-             if(movimentoEscolhido.getCategoria()==convertRainha){
+             if((*it).getCategoria()==convertRainha){
                 converterRainha(posicaoFinal);
             }
-            if(movimentoEscolhido.getCategoria()==captura){
+            if((*it).getCategoria()==captura){
                 capturarPeca(posicaoInicial, posicaoFinal);
             }
         }
