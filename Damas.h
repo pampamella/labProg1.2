@@ -351,7 +351,6 @@ public:
 
     }
     void categoriaDosMovimentosSimples(){
-        int qtd = movimentosPossiveisA.size();
         for(int i = 0;i<movimentosPossiveisA.size();i++){
             bool quebra = true;
             int coluna = (int)movimentosPossiveisA[i].getPosicaoFinal()[0]-97;
@@ -371,7 +370,7 @@ public:
                     movimentosPossiveisA.erase(movimentosPossiveisA.begin()+i);
                 }
             }
-            if(linha==0){
+            else if(linha==0){
                  movimentosPossiveisA[i].setCategoria(convertRainha);
             }
         }
@@ -394,7 +393,7 @@ public:
                     movimentosPossiveisB.erase(movimentosPossiveisB.begin()+i);
                 }    
             }
-            if(linha==9){
+            else if(linha==9){
                  movimentosPossiveisB[i].setCategoria(convertRainha);
             }
         }

@@ -13,14 +13,15 @@ int main(){
     
     int contador = 0;
     while(!Dama.fimJogo()){
-        // string posInicial, posFinal;
-        // do{
-        //     cin >> posInicial>> posFinal;
-        // }
-        // while(!Dama.Jogar(posInicial, posFinal));
-        Dama.JogarA();
+        string posInicial, posFinal;
+        do{
+            cin >> posInicial>> posFinal;
+        }
+        while(!Dama.Jogar(posInicial, posFinal));
+        // Dama.JogarA();
+        // this_thread::sleep_for(chrono::milliseconds(1000) );
         Dama.Jogar();
-        this_thread::sleep_for(chrono::milliseconds(2000) );
+        // this_thread::sleep_for(chrono::milliseconds(1000) );
     }
 
     return 0;
