@@ -23,7 +23,7 @@ private:
     vector<Movimento> movimentosPossiveisB;
 public:
     Damas() : jogadorAtual(true) {}
-    void Jogar()
+    void JogarB()
     {
         if(fimJogo()){
             return;
@@ -45,30 +45,6 @@ public:
         categoriaDosMovimentosSimples();
         mostrarTabuleiro();
     }
-    void JogarA()
-    {
-        if(fimJogo()){
-            return;
-        }
-
-        cout<<"Jogada do computador A:"<<endl;
-        srand(unsigned(time(0)));
-        vector<Movimento> movimentosPrioritarios(movimentosPossiveisA.size());
-        random_shuffle(movimentosPossiveisA.begin(), movimentosPossiveisA.end());
-        copy_if(movimentosPossiveisA.begin(), movimentosPossiveisA.end(), movimentosPrioritarios.begin(), [](Movimento i)
-                { return i.getCategoria() == captura || i.getCategoria() == convertRainha; });
-
-        if (movimentosPrioritarios[0].getPosicaoInicial() != " "){
-            movimentar(movimentosPrioritarios);
-        }else{
-            movimentar(movimentosPossiveisA);
-        }
-        calcularMovimentosPossiveis();
-        limparSobreposicoes();
-        categoriaDosMovimentosSimples();
-        mostrarTabuleiro();
-    }
-
     bool verificaMovimento(string posicaoInicial, string posicaoFinal){
         Movimento tentativaMovimento(posicaoInicial, posicaoFinal);
         vector<Movimento>::iterator it;
@@ -82,7 +58,7 @@ public:
         return false;
     }
 
-    bool Jogar(string posicaoInicial, string posicaoFinal){
+    bool JogarA(string posicaoInicial, string posicaoFinal){
         if(fimJogo()){
             return false;
         }
@@ -331,9 +307,11 @@ public:
                                 continue;
                             }
                             movimentosPossiveisA.erase(movimentosPossiveisA.begin()+j+contador);
+                            
                         }
                     }
                     movimentosPossiveisA.erase(movimentosPossiveisA.begin()+j);
+                    
                 }
             }
         }
@@ -351,24 +329,23 @@ public:
 
     }
     void categoriaDosMovimentosSimples(){
-        int qtd = movimentosPossiveisA.size();
         for(int i = 0;i<movimentosPossiveisA.size();i++){
             bool quebra = true;
             int coluna = (int)movimentosPossiveisA[i].getPosicaoFinal()[0]-97;
             int linha = 57-movimentosPossiveisA[i].getPosicaoFinal()[1];
+            int colunaInicial = (int)movimentosPossiveisA[i].getPosicaoInicial()[0]-97;
+            int linhaInicial = 57-movimentosPossiveisA[i].getPosicaoInicial()[1];
+            int varColuna = (coluna-colunaInicial)/abs(coluna-colunaInicial);
             if(tabuleiro[linha][coluna].getTipo()==vazia){
                 movimentosPossiveisA[i].setCategoria(normal);
             }
             else if(tabuleiro[linha][coluna].getTipo()==simples||tabuleiro[linha][coluna].getTipo()==rainha){
-                if(linha - 1>=0 && coluna + 1<10 && tabuleiro[linha-1][coluna+1].getTipo() == vazia){
-                    movimentosPossiveisA[i].setCategoria(captura);
-                    quebra=false;
-                    }
-                else if(linha - 1>=0 && coluna-1>=0 && tabuleiro[linha-1][coluna-1].getTipo() == vazia && !quebra){
+                if(linha - 1>=0 && coluna + varColuna<10 && tabuleiro[linha-1][coluna+varColuna].getTipo() == vazia){
                     movimentosPossiveisA[i].setCategoria(captura);
                     }
                 else{
                     movimentosPossiveisA.erase(movimentosPossiveisA.begin()+i);
+                    i--;
                 }
             }
             if(linha==0){
@@ -379,19 +356,19 @@ public:
             bool quebra=true;
             int coluna = (int)movimentosPossiveisB[i].getPosicaoFinal()[0]-97;
             int linha = 57-movimentosPossiveisB[i].getPosicaoFinal()[1];
+            int colunaInicial = (int)movimentosPossiveisB[i].getPosicaoInicial()[0]-97;
+            int linhaInicial = 57-movimentosPossiveisB[i].getPosicaoInicial()[1];
+            int varColuna = (coluna-colunaInicial)/abs(coluna-colunaInicial);
             if(tabuleiro[linha][coluna].getTipo()==vazia){
                 movimentosPossiveisB[i].setCategoria(normal);
             }
             else if(tabuleiro[linha][coluna].getTipo()==simples){
-                if(linha+1<10&&coluna+1<10&&tabuleiro[linha+1][coluna+1].getTipo()==vazia){
-                    movimentosPossiveisB[i].setCategoria(captura);
-                    quebra=false;
-                    }
-                else if(linha+1<10&&coluna-1>=0&&tabuleiro[linha+1][coluna-1].getTipo()==vazia&&!quebra){
+                if(linha+1<10&&coluna+varColuna<10&&tabuleiro[linha+1][coluna+varColuna].getTipo()==vazia){
                     movimentosPossiveisB[i].setCategoria(captura);
                     }
                 else{
                     movimentosPossiveisB.erase(movimentosPossiveisB.begin()+i);
+                    i--;
                 }    
             }
             if(linha==9){
