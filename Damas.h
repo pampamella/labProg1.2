@@ -95,6 +95,8 @@ public:
             y = posicaoFinal[1] - 48;
             pecaMovimentada.setPosicao(posicaoFinal);
             tabuleiro[9-y][x] = pecaMovimentada;
+
+            
         }
         calcularMovimentosPossiveis();
         limparSobreposicoes();
@@ -361,6 +363,7 @@ public:
         }
         qtd = movimentosPossiveisB.size();
         for(int i = 0;i<movimentosPossiveisB.size();i++){
+            bool quebra=true;
             int coluna = (int)movimentosPossiveisB[i].getPosicaoFinal()[0]-97;
             int linha = 57-movimentosPossiveisB[i].getPosicaoFinal()[1];
             if(tabuleiro[linha][coluna].getTipo()==vazia){
@@ -369,9 +372,12 @@ public:
             else if(tabuleiro[linha][coluna].getTipo()==simples){
                 if(linha+1<10&&coluna+1<10&&tabuleiro[linha+1][coluna+1].getTipo()==vazia){
                     movimentosPossiveisB[i].setCategoria(captura);
+                    cout<<"entrei a"<<endl;
+                    quebra=false;
                     }
-                else if(linha+1<10&&coluna-1>=0&&tabuleiro[linha+1][coluna-1].getTipo()==vazia){
+                else if(linha+1<10&&coluna-1>=0&&tabuleiro[linha+1][coluna-1].getTipo()==vazia&&!quebra){
                     movimentosPossiveisB[i].setCategoria(captura);
+                    cout<<"entrei b"<<endl;
                     }
                 else{
                     movimentosPossiveisB.erase(movimentosPossiveisB.begin()+i);
