@@ -83,7 +83,12 @@ public:
     }
 
     bool Jogar(string posicaoInicial, string posicaoFinal){
+        if(fimJogo()){
+            return false;
+        }
         bool movimentoPossivel = verificaMovimento(posicaoInicial, posicaoFinal);
+        Movimento movimentoEscolhido(posicaoInicial, posicaoFinal);
+       
         if(movimentoPossivel){
             cout<<"Jogada do jogador:"<<endl;
             int x = posicaoInicial[0] - 97;
@@ -95,6 +100,12 @@ public:
             y = posicaoFinal[1] - 48;
             pecaMovimentada.setPosicao(posicaoFinal);
             tabuleiro[9-y][x] = pecaMovimentada;
+             if(movimentoEscolhido.getCategoria()==convertRainha){
+                converterRainha(posicaoFinal);
+            }
+            if(movimentoEscolhido.getCategoria()==captura){
+                capturarPeca(posicaoInicial, posicaoFinal);
+            }
         }
         calcularMovimentosPossiveis();
         limparSobreposicoes();
