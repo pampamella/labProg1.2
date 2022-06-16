@@ -150,7 +150,6 @@ public:
         posCaptura+=yFinal+varY;
         vector<Movimento> movCaptura;
         Movimento mov(posFinal,posCaptura);
-        cout<<yFinal+varY-48<<endl;
         if(yFinal+varY-48==9||yFinal+varY-48==0){
             if(tabuleiro[9-yFinal][xFinal].getTipo()!=rainha);
             mov.setCategoria(convertRainha);
@@ -177,7 +176,6 @@ public:
                 }
                 if(tabuleiro[linha][coluna].getLado()==true){
                     if(tabuleiro[linha][coluna].getTipo()==rainha){
-                        // cout<<"A";
                         cout << ESC << ";" << RED_TXT <<"m"<< " O " << RESET;
                         continue;
                     }
@@ -355,6 +353,7 @@ public:
     void categoriaDosMovimentosSimples(){
         int qtd = movimentosPossiveisA.size();
         for(int i = 0;i<movimentosPossiveisA.size();i++){
+            bool quebra = true;
             int coluna = (int)movimentosPossiveisA[i].getPosicaoFinal()[0]-97;
             int linha = 57-movimentosPossiveisA[i].getPosicaoFinal()[1];
             if(tabuleiro[linha][coluna].getTipo()==vazia){
@@ -363,8 +362,9 @@ public:
             else if(tabuleiro[linha][coluna].getTipo()==simples||tabuleiro[linha][coluna].getTipo()==rainha){
                 if(linha - 1>=0 && coluna + 1<10 && tabuleiro[linha-1][coluna+1].getTipo() == vazia){
                     movimentosPossiveisA[i].setCategoria(captura);
+                    quebra=false;
                     }
-                else if(linha - 1>=0 && coluna-1>=0 && tabuleiro[linha-1][coluna-1].getTipo() == vazia){
+                else if(linha - 1>=0 && coluna-1>=0 && tabuleiro[linha-1][coluna-1].getTipo() == vazia && !quebra){
                     movimentosPossiveisA[i].setCategoria(captura);
                     }
                 else{
@@ -375,7 +375,6 @@ public:
                  movimentosPossiveisA[i].setCategoria(convertRainha);
             }
         }
-        qtd = movimentosPossiveisB.size();
         for(int i = 0;i<movimentosPossiveisB.size();i++){
             bool quebra=true;
             int coluna = (int)movimentosPossiveisB[i].getPosicaoFinal()[0]-97;
@@ -386,12 +385,10 @@ public:
             else if(tabuleiro[linha][coluna].getTipo()==simples){
                 if(linha+1<10&&coluna+1<10&&tabuleiro[linha+1][coluna+1].getTipo()==vazia){
                     movimentosPossiveisB[i].setCategoria(captura);
-                    cout<<"entrei a"<<endl;
                     quebra=false;
                     }
                 else if(linha+1<10&&coluna-1>=0&&tabuleiro[linha+1][coluna-1].getTipo()==vazia&&!quebra){
                     movimentosPossiveisB[i].setCategoria(captura);
-                    cout<<"entrei b"<<endl;
                     }
                 else{
                     movimentosPossiveisB.erase(movimentosPossiveisB.begin()+i);
